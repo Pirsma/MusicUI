@@ -2,9 +2,21 @@ const audio = document.getElementById("audio");
 const lyricsDiv = document.getElementById("lyrics");
 const playBtn = document.getElementById("playBtn");
 
+const progress = document.getElementById("progress");
+const progressBar = document.getElementById("progressBar");
+const currentTimeEl = document.getElementById("current");
+const durationEl = document.getElementById("duration");
+
 let lyrics = [];
 
-/* PLAY BUTTON */
+/* FORMAT TIME */
+function formatTime(time) {
+  const min = Math.floor(time / 60);
+  const sec = Math.floor(time % 60);
+  return `${min}:${sec < 10 ? "0" + sec : sec}`;
+}
+
+/* PLAY / PAUSE */
 playBtn.addEventListener("click", () => {
   if (audio.paused) {
     audio.play();
@@ -13,6 +25,26 @@ playBtn.addEventListener("click", () => {
     audio.pause();
     playBtn.innerText = "Play";
   }
+});
+
+/* LOAD DURATION */
+audio.addEventListener("loadedmetadata", () => {
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+/* UPDATE PROGRESS */
+audio.addEventListener("timeupdate", () => {
+  const percent = (audio.currentTime / audio.duration) * 100;
+  progress.style.width = percent + "%";
+
+  currentTimeEl.innerText = formatTime(audio.currentTime);
+});
+
+/* SEEK */
+progressBar.addEventListener("click", (e) => {
+  const width = progressBar.clientWidth;
+  const clickX = e.offsetX;
+  audio.currentTime = (clickX / width) * audio.duration;
 });
 
 /* LOAD LRC */
@@ -28,9 +60,9 @@ fetch("AlexandraLyrics.lrc")
         const min = parseInt(match[1]);
         const sec = parseFloat(match[2]);
         const time = min * 60 + sec;
-        const text = match[3].trim();
+        const textLine = match[3].trim();
 
-        lyrics.push({ time, text });
+        lyrics.push({ time, text: textLine });
       }
     });
 
@@ -67,7 +99,7 @@ function animateLyrics() {
         if (lines[i + 1]) lines[i + 1].classList.add("near");
 
         line.scrollIntoView({
-          behavior: "smooth",
+          behavior: "auto",
           block: "center"
         });
       }
