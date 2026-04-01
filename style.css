@@ -5,7 +5,8 @@ body {
   background: black;
 }
 
-/* BACKGROUND */
+/* BACKGROUND — warna mengikuti cover */
+
 .bg {
   position: fixed;
 
@@ -25,12 +26,14 @@ body {
 }
 
 /* LAYOUT */
+
 .container {
   display: flex;
   height: 100vh;
 }
 
 /* LEFT */
+
 .left {
   flex: 1;
 
@@ -129,24 +132,28 @@ button {
   flex: 1;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
   padding: 20px;
+
+  box-sizing: border-box;
 }
 
-/* LYRICS */
+/* LYRICS CONTAINER */
 
 #lyrics {
   height: 400px;
 
   width: 100%;
-
   max-width: 600px;
 
   overflow: hidden;
+
+  padding-top: 50px;
+  padding-bottom: 50px;
+
+  box-sizing: border-box;
 
   text-align: center;
 
@@ -167,23 +174,29 @@ button {
   );
 }
 
+/* LYRICS TEXT */
+
 .line {
   font-size: 20px;
 
   color: rgba(255,255,255,0.3);
 
-  padding: 8px;
+  padding: 10px 12px;
 
   transition: all 0.3s ease;
 
   white-space: normal;
 
   word-wrap: break-word;
+
+  line-height: 1.5;
 }
 
 .line.near {
   color: rgba(255,255,255,0.6);
 }
+
+/* ACTIVE LINE — zoom aman */
 
 .active {
   color: white;
@@ -192,7 +205,11 @@ button {
 
   font-weight: 600;
 
-  transform: scale(1.1);
+  transform: scale(1.08);
+
+  transform-origin: center;
+
+  line-height: 1.4;
 }
 
 /* MOBILE */
@@ -214,7 +231,11 @@ button {
   #lyrics {
     height: 100%;
 
-    padding: 0 10px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .line {
@@ -223,6 +244,8 @@ button {
 
   .active {
     font-size: 22px;
+
+    transform: scale(1.06);
   }
 
   .glass {
